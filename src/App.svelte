@@ -71,6 +71,7 @@
 </script>
 
 <main>
+  <Toast />
   <h1>Student Groups Randomizer!</h1>
 
   <h2>Students</h2>
@@ -80,10 +81,9 @@
     <button on:click={() => loadPreviousClass()}>Load previous class</button>
     <br />
   {/if}
-  <Toast />
 
+  <label for="addStudent"><i class="fas fa-user" /> Student(s) </label>
   <div class="inputContainer">
-    <label for="addStudent"><i class="fas fa-user" /> Student(s) </label>
     <input
       id="addStudent"
       type="text"
@@ -93,8 +93,10 @@
     />
   </div>
 
-  <button on:click={() => createClass()}>Add Student(s)</button>
-  <button class="danger" on:click={() => resetData()}>Reset</button>
+  <div class="btnContainer">
+    <button on:click={() => createClass()}>Add Student(s)</button>
+    <button class="danger" on:click={() => resetData()}>Reset</button>
+  </div>
   <br />
 
   <!-- Set Number of Group Members -->
@@ -144,6 +146,7 @@
   h1 {
     text-align: center;
     margin: 2em auto;
+    word-wrap: break-word;
   }
   h2 {
     margin: 1em auto;
@@ -162,9 +165,15 @@
     cursor: pointer;
     transition: all 100ms ease-out;
   }
-  button + button {
+  /* button + button {
     margin-left: 1em;
+  } */
+  .btnContainer {
+    display: flex;
+    justify-content: space-between;
+    max-width: 290px;
   }
+
   button:focus,
   button:hover,
   button:active {
@@ -208,15 +217,21 @@
     border: 2px solid hsla(263, 48%, 54%, 0.8);
   }
 
+  input {
+    width: 100%;
+    display: block;
+  }
+
   .inputContainer {
     margin-top: 1em;
     margin-bottom: 1em;
     display: flex;
     align-items: center;
+    max-width: 200px;
   }
-  .inputContainer > input {
+  /* .inputContainer > input {
     margin-left: 2em;
-  }
+  } */
 
   p.group {
     font-size: 1.1rem;
@@ -226,5 +241,16 @@
   }
   p.group:last-of-type {
     margin-bottom: 1em;
+  }
+
+  @media screen and (max-width: 400px) {
+    .btnContainer {
+      flex-direction: column;
+      justify-content: space-between;
+      /* background-color: aqua; */
+      min-height: 80px;
+      max-width: 200px;
+      margin: 0 auto;
+    }
   }
 </style>
