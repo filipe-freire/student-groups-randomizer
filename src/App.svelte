@@ -26,7 +26,7 @@
   }
   function createClass() {
     const value = studentsInput.split(",").map((student) => {
-      const normalizedName = student.trim();
+      const normalizedName = student.trim().toLowerCase();
       return normalizedName[0].toLocaleUpperCase() + normalizedName.slice(1);
     });
     students = [...students, ...value];
@@ -61,7 +61,7 @@
 </script>
 
 <main>
-  <h1>Group Randomizer!</h1>
+  <h1>Student Groups Randomizer!</h1>
 
   <h2>Students</h2>
 
