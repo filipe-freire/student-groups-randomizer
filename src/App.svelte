@@ -37,6 +37,22 @@
       studentsInput = "";
     }
   }
+  function saveClass() {
+    window.localStorage.setItem("class", students.join(" , "));
+  }
+  function loadPreviousClass() {
+    const savedClass = window.localStorage.getItem("class").split(" , ");
+    students = [...savedClass];
+  }
+  function copyGroupsToClipboard() {
+    let string = "";
+
+    groups.forEach((group, i) => {
+      string += `Group ${i + 1}: ${group.join(" - ")}` + "\n";
+    });
+
+    navigator.clipboard.writeText(string);
+  }
 
   let studentsInput = "";
   let students = [];
@@ -48,6 +64,12 @@
   <h1>Group Randomizer!</h1>
 
   <h2>Students</h2>
+
+  <!-- Check LocalStorage for previous saved class and display btn -->
+  {#if window.localStorage.getItem("class")}
+    <button on:click={() => loadPreviousClass()}>Load previous class</button>
+  {/if}
+
   <label for="addStudent">Student(s)</label>
   <input
     style="width: 200px;"
@@ -81,13 +103,19 @@
         <li>{student}</li>
       {/each}
     </ol>
+    <button on:click={() => saveClass()}> Save Class! </button>
   {/if}
 
   <!-- Final Groups -->
   {#if groups.length}
     <h2>Final Groups</h2>
+    {#each groups as group, i}
+      <p><b>Group {i + 1}</b>: {group.join(" - ")}</p>
+    {/each}
+
+    <!-- Copy Groups to Clipboard -->
+    <button on:click={() => copyGroupsToClipboard()}
+      >Copy Groups to Clipboard</button
+    >
   {/if}
-  {#each groups as group, i}
-    <p><b>Group {i + 1}</b>: {group.join(" - ")}</p>
-  {/each}
 </main>
