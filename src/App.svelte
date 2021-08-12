@@ -53,6 +53,10 @@
 
     navigator.clipboard.writeText(string);
   }
+  function resetData() {
+    students.length = 0;
+    groups.length = 0;
+  }
 
   let studentsInput = "";
   let students = [];
@@ -81,7 +85,7 @@
   />
 
   <button on:click={() => createClass()}>Add Student(s)</button>
-  <button on:click={() => (students.length = 0)}>Reset</button>
+  <button on:click={() => resetData()}>Reset</button>
   <br />
 
   <!-- Set Number of Group Members -->
