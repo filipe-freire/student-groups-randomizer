@@ -37,6 +37,7 @@
       studentsInput = "";
     }
   }
+
   let studentsInput = "";
   let students = [];
   let groups = [];
@@ -56,13 +57,12 @@
     bind:value={studentsInput}
     on:keyup={(e) => handleReturn(e)}
   />
+
   <button on:click={() => createClass()}>Add Student(s)</button>
-  <button
-    on:click={() => {
-      students.length = 0;
-    }}>Reset</button
-  >
+  <button on:click={() => (students.length = 0)}>Reset</button>
   <br />
+
+  <!-- Set Number of Group Members -->
   {#if students.length > 1}
     <label for="numOfMembers"
       >How many members do you want the groups to have?</label
@@ -83,7 +83,7 @@
     </ol>
   {/if}
 
-  <!-- final groups -->
+  <!-- Final Groups -->
   {#if groups.length}
     <h2>Final Groups</h2>
   {/if}
