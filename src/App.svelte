@@ -42,6 +42,7 @@
   }
   function saveClass() {
     window.localStorage.setItem("class", students.join(" , "));
+    notifications.success("Groups successfully saved for next visit! 🎉", 3000);
   }
   function loadPreviousClass() {
     const savedClass = window.localStorage.getItem("class").split(" , ");
@@ -82,7 +83,7 @@
     <br />
   {/if}
 
-  <label for="addStudent"><i class="fas fa-user" /> Student(s) </label>
+  <label for="addStudent"><i class="fas fa-user" />Student(s) </label>
   <div class="inputContainer">
     <input
       id="addStudent"
