@@ -42,10 +42,15 @@
   }
   function saveClass() {
     window.localStorage.setItem("class", students.join(" , "));
+    notifications.success(
+      "Class successfully saved for the next visit! 🎉",
+      3000
+    );
   }
   function loadPreviousClass() {
     const savedClass = window.localStorage.getItem("class").split(" , ");
     students = [...savedClass];
+    notifications.info("Class successfully loaded!", 3000);
   }
   function copyGroupsToClipboard() {
     let string = "";
@@ -55,13 +60,17 @@
     });
 
     navigator.clipboard.writeText(string);
-    notifications.success("Groups successfully copied to clipboard! 🎉", 3000);
+    notifications.success("Groups successfully copied to clipboard!", 3000);
   }
   function resetData() {
     students.length = 0;
     groups.length = 0;
 
     notifications.info("Data was cleared! ✅", 3000);
+  }
+  function deleteStudent(i) {
+    console.log(`deleted ${i}`);
+    students = students.filter((_, idx) => idx !== i);
   }
 
   let studentsInput = "";
@@ -74,30 +83,37 @@
   <Toast />
   <h1>Student Groups Randomizer!</h1>
 
-  <h2>Students</h2>
-
   <!-- Check LocalStorage for previous saved class and display btn -->
   {#if window.localStorage.getItem("class")}
-    <button on:click={() => loadPreviousClass()}>Load previous class</button>
+    <button class="loadClassBtn" on:click={() => loadPreviousClass()}
+      >Load previous class!</button
+    >
     <br />
   {/if}
 
-  <label for="addStudent"><i class="fas fa-user" /> Student(s) </label>
-  <div class="inputContainer">
-    <input
-      id="addStudent"
-      type="text"
-      placeholder="Ex: student1, student2, student3..."
-      bind:value={studentsInput}
-      on:keyup={(e) => handleReturn(e)}
-    />
-  </div>
-
-  <div class="btnContainer">
-    <button on:click={() => createClass()}>Add Student(s)</button>
-    <button class="danger" on:click={() => resetData()}>Reset</button>
-  </div>
-  <br />
+  <section class="addStudentsContainer">
+    <div>
+      <label class="studentsLabel" for="addStudent"
+        ><i class="fas fa-user" /> Student(s)
+      </label>
+      <div class="inputContainer">
+        <input
+          class="addStudentInput"
+          id="addStudent"
+          type="text"
+          placeholder="Ex: student1, student2, student3..."
+          bind:value={studentsInput}
+          on:keyup={(e) => handleReturn(e)}
+        />
+      </div>
+    </div>
+    <div>
+      <div class="btnContainer">
+        <button on:click={() => createClass()}>Add Student(s)</button>
+        <button class="danger" on:click={() => resetData()}>Reset</button>
+      </div>
+    </div>
+  </section>
 
   <!-- Set Number of Group Members -->
   {#if students.length > 1}
@@ -105,23 +121,36 @@
       <label for="numOfMembers"
         >How many members do you want the groups to have?</label
       >
-      <input id="numOfMembers" bind:value={numOfMembers} type="number" />
+      <input
+        class="numOfMembersInput"
+        id="numOfMembers"
+        bind:value={numOfMembers}
+        type="number"
+      />
     </div>
+
     <button on:click={() => createGroups()}>Create groups</button>
-    <button class="save" on:click={() => saveClass()}> Save Class! </button>
+    <button class="saveBtn" on:click={() => saveClass()}> Save Class!</button>
   {/if}
 
-  <!-- Students on the list -->
-  <h2>List of students:</h2>
-  {#if students.length === 0}
-    <p>You're class is empty, please add students.</p>
-  {:else}
-    <ol>
-      {#each students as student}
-        <li>{student}</li>
-      {/each}
-    </ol>
-  {/if}
+  <!-- Students list -->
+  <section class="studentsListContainer">
+    <h2>List of students:</h2>
+    {#if students.length === 0}
+      <p>You're class is empty, please add students.</p>
+    {:else}
+      <ol>
+        {#each students as student, i}
+          <li class="student">
+            <p>{i + 1}. {student}</p>
+            <button class="danger" on:click={() => deleteStudent(i)}
+              >Remove</button
+            >
+          </li>
+        {/each}
+      </ol>
+    {/if}
+  </section>
 
   <!-- Final Groups -->
   {#if groups.length}
@@ -139,7 +168,7 @@
 
 <style>
   main {
-    max-width: 1440px;
+    max-width: 900px;
     margin: 0 auto;
     padding: 1em 3rem 3em;
   }
@@ -148,10 +177,8 @@
     margin: 2em auto;
     word-wrap: break-word;
   }
-  h2 {
-    margin: 1em auto;
-  }
   button {
+    display: block;
     padding: 1ch 2ch;
     border: 2px solid hsl(209, 36%, 47%);
     background-color: hsl(209, 80%, 70%);
@@ -164,14 +191,16 @@
       rgba(17, 17, 26, 0.1) 0px 0px 8px;
     cursor: pointer;
     transition: all 100ms ease-out;
+    width: 100%;
+    max-width: 200px;
+    margin: 0 auto;
+    display: block;
   }
-  /* button + button {
-    margin-left: 1em;
-  } */
   .btnContainer {
     display: flex;
     justify-content: space-between;
     max-width: 290px;
+    gap: 0.5rem;
   }
 
   button:focus,
@@ -194,14 +223,39 @@
     background-color: hsl(0, 76%, 40%);
   }
 
-  button.save {
+  button.saveBtn {
     background-color: hsl(98, 38%, 50%);
     border: 2px solid hsl(120, 83%, 25%);
   }
-  button.save:hover,
-  button.save:active {
+  button.saveBtn:hover,
+  button.saveBtn:active {
     background-color: hsl(98, 38%, 40%);
     border: 2px solid hsl(104.7, 64.6%, 15.5%);
+  }
+
+  ol {
+    padding-left: 0;
+    width: 100%;
+    max-width: 200px;
+  }
+  ol > li {
+    cursor: pointer;
+    width: 100%;
+  }
+
+  .student {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .student > button.danger {
+    max-width: 6rem;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  ol > .student + .student {
+    margin-top: 1em;
   }
 
   input {
@@ -223,15 +277,38 @@
   }
 
   .inputContainer {
-    margin-top: 1em;
+    margin-top: 2em;
     margin-bottom: 1em;
     display: flex;
     align-items: center;
-    max-width: 200px;
   }
-  /* .inputContainer > input {
-    margin-left: 2em;
-  } */
+  .numOfMembersInput {
+    max-width: 80px;
+  }
+
+  .addStudentsContainer {
+    flex-direction: column;
+  }
+  .addStudentsContainer,
+  .studentsListContainer {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+
+  .studentsListContainer {
+    flex-direction: column;
+    gap: 1em;
+    margin-top: 2em;
+  }
+  .addStudentInput {
+    max-width: 300px;
+  }
+
+  .studentsLabel {
+    display: block;
+    margin-top: 1.5em;
+  }
 
   p.group {
     font-size: 1.1rem;
@@ -251,6 +328,10 @@
       min-height: 80px;
       max-width: 200px;
       margin: 0 auto;
+    }
+
+    button.saveBtn {
+      margin-top: 1rem;
     }
   }
 </style>
