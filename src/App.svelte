@@ -107,17 +107,15 @@
         />
       </div>
     </div>
-    <div>
-      <div class="btnContainer">
-        <button on:click={() => createClass()}>Add Student(s)</button>
-        <button class="danger" on:click={() => resetData()}>Reset</button>
-      </div>
+    <div class="btnContainer">
+      <button on:click={() => createClass()}>Add Student(s)</button>
+      <button class="danger" on:click={() => resetData()}>Reset</button>
     </div>
   </section>
 
   <!-- Set Number of Group Members -->
   {#if students.length > 1}
-    <div class="inputContainer">
+    <div class="inputContainer groups">
       <label for="numOfMembers"
         >How many members do you want the groups to have?</label
       >
@@ -128,9 +126,10 @@
         type="number"
       />
     </div>
-
-    <button on:click={() => createGroups()}>Create groups</button>
-    <button class="saveBtn" on:click={() => saveClass()}> Save Class!</button>
+    <div class="btnContainer">
+      <button on:click={() => createGroups()}>Create groups</button>
+      <button class="saveBtn" on:click={() => saveClass()}>Save Class!</button>
+    </div>
   {/if}
 
   <!-- Students list -->
@@ -281,7 +280,16 @@
     margin-bottom: 1em;
     display: flex;
     align-items: center;
+    justify-content: space-evenly;
   }
+  .inputContainer.groups {
+    gap: 3rem;
+  }
+  .inputContainer.groups > label {
+    max-width: 260px;
+    line-height: 2.2ch;
+  }
+
   .numOfMembersInput {
     max-width: 80px;
   }
