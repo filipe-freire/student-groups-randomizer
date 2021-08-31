@@ -152,17 +152,19 @@
   </section>
 
   <!-- Final Groups -->
-  {#if groups.length}
-    <h2>Final Groups</h2>
-    {#each groups as group, i}
-      <p class="group"><b>Group {i + 1}</b>: {group.join(" - ")}</p>
-    {/each}
+  <section class="groupsContainer">
+    {#if groups.length}
+      <h2>Final Groups</h2>
+      {#each groups as group, i}
+        <p class="group"><b>Group {i + 1}</b>: {group.join(" - ")}</p>
+      {/each}
 
-    <!-- Copy Groups to Clipboard -->
-    <button on:click={() => copyGroupsToClipboard()}
-      >Copy Groups to Clipboard!</button
-    >
-  {/if}
+      <!-- Copy Groups to Clipboard -->
+      <button on:click={() => copyGroupsToClipboard()}
+        >Copy Groups to Clipboard!</button
+      >
+    {/if}
+  </section>
 </main>
 
 <style>
@@ -178,11 +180,12 @@
   }
   button {
     display: block;
-    padding: 1ch 2ch;
+    padding: 1.5ch 2ch;
     border: 2px solid hsl(209, 36%, 47%);
     background-color: hsl(209, 80%, 70%);
     color: hsl(0, 0%, 100%);
     font-weight: 600;
+    font-family: inherit;
     border-radius: 5px;
     text-transform: uppercase;
     letter-spacing: 1.8px;
@@ -249,7 +252,8 @@
     justify-content: space-between;
   }
   .student > button.danger {
-    max-width: 6rem;
+    max-width: 7rem;
+    padding: 0.7rem;
     margin-left: 0;
     margin-right: 0;
   }
@@ -277,7 +281,7 @@
   }
 
   .inputContainer {
-    margin: 2em auto 1em;
+    margin: 2em auto;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
@@ -308,7 +312,9 @@
   .studentsListContainer {
     flex-direction: column;
     gap: 1em;
-    margin-top: 2em;
+  }
+  .studentsListContainer > h2 {
+    margin: 2em auto 1em;
   }
   .addStudentInput {
     max-width: 300px;
@@ -329,6 +335,22 @@
     margin-bottom: 1em;
   }
 
+  .groupsContainer {
+    margin: 2em auto;
+    max-width: 400px;
+  }
+  .groupsContainer > h2 {
+    margin: 2em auto;
+    text-align: center;
+  }
+  .groupsContainer > p {
+    margin: 2em auto;
+    display: block;
+  }
+  .groupsContainer > p:last-of-type {
+    margin-bottom: 3em;
+  }
+
   @media screen and (max-width: 400px) {
     .btnContainer {
       flex-direction: column;
@@ -341,6 +363,11 @@
 
     button.saveBtn {
       margin-top: 1rem;
+    }
+
+    .inputContainer.groups {
+      flex-direction: column;
+      gap: 1rem;
     }
   }
 </style>
