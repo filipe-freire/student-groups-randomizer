@@ -200,6 +200,7 @@
     justify-content: space-between;
     max-width: 290px;
     gap: 0.5rem;
+    margin: 0 auto;
   }
 
   button:focus,
@@ -276,11 +277,11 @@
   }
 
   .inputContainer {
-    margin-top: 2em;
-    margin-bottom: 1em;
+    margin: 2em auto 1em;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
+    max-width: 400px;
   }
   .inputContainer.groups {
     gap: 3rem;
