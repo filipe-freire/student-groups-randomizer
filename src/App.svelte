@@ -27,7 +27,6 @@
       finalGroups.push(group);
     }
     groups = [...finalGroups];
-    console.log(groups);
   }
   function createClass() {
     const value = studentsInput.split(",").map((student) => {
@@ -71,7 +70,6 @@
     notifications.info("Data was cleared! ✅", 3000);
   }
   function deleteStudent(i) {
-    console.log(`deleted ${i}`);
     students = students.filter((_, idx) => idx !== i);
   }
 
