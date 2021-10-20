@@ -1,12 +1,13 @@
 <script lang="ts">
-  import { notifications } from "./notifications";
-  import Toast from "./components/Toast.svelte";
-
   import { scrollto } from "svelte-scrollto";
+  import Toast from "./components/Toast.svelte";
+  import { notifications } from "./notifications";
+  import { capitalizeNames } from "./tools/capitalizeNames";
+  import { capitalizeSingleName } from "./tools/capitalizeSingleName";
+  import { generateRandomNumber } from "./tools/getRandomNumber";
+  import { normalizeName } from "./tools/normalizeName";
+  import { sortAlphabetically } from "./tools/sortClassAlphabetically";
 
-  function generateRandomNumber(lower: number, upper: number) {
-    return Math.floor(Math.random() * (upper + 1 - lower)) + lower;
-  }
   // Creates groups of 2 people by default
   function createGroups() {
     if (!students.length || numOfMembers <= 0) return;
@@ -29,11 +30,15 @@
     groups = [...finalGroups];
   }
   function createClass() {
-    const value = studentsInput.split(",").map((student) => {
-      const normalizedName = student.trim().toLowerCase();
-      return normalizedName[0].toLocaleUpperCase() + normalizedName.slice(1);
+    const studentsClass = studentsInput.split(",").map((student) => {
+      const normalizedName = normalizeName(student);
+      if (normalizedName.indexOf(" ") >= 0) {
+        return capitalizeNames(normalizedName);
+      } else {
+        return capitalizeSingleName(normalizedName);
+      }
     });
-    students = [...students, ...value];
+    students = sortAlphabetically([...students, ...studentsClass]);
   }
   function handleReturn(e) {
     if (e.code === "Enter") {
@@ -50,7 +55,7 @@
   }
   function loadPreviousClass() {
     const savedClass = window.localStorage.getItem("class").split(" , ");
-    students = [...savedClass];
+    students = [...sortAlphabetically(savedClass)];
     notifications.info("Class successfully loaded!", 3000);
   }
   function copyGroupsToClipboard() {
@@ -69,7 +74,7 @@
 
     notifications.info("Data was cleared! ✅", 3000);
   }
-  function deleteStudent(i) {
+  function deleteStudent(i: number) {
     students = students.filter((_, idx) => idx !== i);
   }
 
@@ -243,6 +248,10 @@
   button.saveBtn:active {
     background-color: hsl(98, 38%, 40%);
     border: 2px solid hsl(104.7, 64.6%, 15.5%);
+  }
+
+  button.loadClassBtn {
+    max-width: 300px;
   }
 
   ol {
