@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { scrollto } from "svelte-scrollto";
+  // import { scrollto } from "svelte-scrollto";
   import Toast from "./components/Toast.svelte";
   import { notifications } from "./notifications";
   import { capitalizeNames } from "./tools/capitalizeNames";
@@ -89,11 +89,11 @@
   <h1>Student Groups Randomizer!</h1>
 
   <!-- Check LocalStorage for previous saved class and display btn -->
+  <!-- use:scrollto={"#groups"} -->
+
   {#if window.localStorage.getItem("class")}
-    <button
-      use:scrollto={"#groups"}
-      class="loadClassBtn"
-      on:click={() => loadPreviousClass()}>Load previous class!</button
+    <button class="loadClassBtn" on:click={() => loadPreviousClass()}
+      >Load previous class!</button
     >
     <br />
   {/if}
@@ -134,9 +134,7 @@
       />
     </div>
     <div class="btnContainer">
-      <button on:click={() => createGroups()} use:scrollto={"#groups"}
-        >Create groups</button
-      >
+      <button on:click={() => createGroups()}>Create groups</button>
       <button class="saveBtn" on:click={() => saveClass()}>Save Class!</button>
     </div>
   {/if}
