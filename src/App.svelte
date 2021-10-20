@@ -2,6 +2,8 @@
   import { notifications } from "./notifications";
   import Toast from "./components/Toast.svelte";
 
+  import {scrollto} from "svelte-scrollto";
+
   function generateRandomNumber(lower: number, upper: number) {
     return Math.floor(Math.random() * (upper + 1 - lower)) + lower;
   }
@@ -85,7 +87,7 @@
 
   <!-- Check LocalStorage for previous saved class and display btn -->
   {#if window.localStorage.getItem("class")}
-    <button class="loadClassBtn" on:click={() => loadPreviousClass()}
+    <button use:scrollto={'#groups'} class="loadClassBtn" on:click={() => loadPreviousClass()}
       >Load previous class!</button
     >
     <br />
@@ -152,7 +154,7 @@
   </section>
 
   <!-- Final Groups -->
-  <section class="groupsContainer">
+  <section id="groups" class="groupsContainer">
     {#if groups.length}
       <h2>Final Groups</h2>
       {#each groups as group, i}
@@ -168,6 +170,10 @@
 </main>
 
 <style>
+
+  :root {
+    scroll-behavior: smooth;
+  }
   main {
     max-width: 900px;
     margin: 0 auto;
