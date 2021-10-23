@@ -2,11 +2,10 @@
   import { notifications } from "./notifications";
   import Toast from "./components/Toast.svelte";
 
-  import {scrollto} from "svelte-scrollto";
-
   function generateRandomNumber(lower: number, upper: number) {
     return Math.floor(Math.random() * (upper + 1 - lower)) + lower;
   }
+
   // Creates groups of 2 people by default
   function createGroups() {
     if (!students.length || numOfMembers <= 0) return;
@@ -27,7 +26,7 @@
       finalGroups.push(group);
     }
     groups = [...finalGroups];
-    console.log(groups);
+    location.href = "#groups"
   }
   function createClass() {
     const value = studentsInput.split(",").map((student) => {
@@ -35,6 +34,8 @@
       return normalizedName[0].toLocaleUpperCase() + normalizedName.slice(1);
     });
     students = [...students, ...value];
+
+    location.href = "#studentsList"
   }
   function handleReturn(e) {
     if (e.code === "Enter") {
@@ -71,7 +72,6 @@
     notifications.info("Data was cleared! ✅", 3000);
   }
   function deleteStudent(i) {
-    console.log(`deleted ${i}`);
     students = students.filter((_, idx) => idx !== i);
   }
 
@@ -84,10 +84,9 @@
 <main>
   <Toast />
   <h1>Student Groups Randomizer!</h1>
-
   <!-- Check LocalStorage for previous saved class and display btn -->
   {#if window.localStorage.getItem("class")}
-    <button use:scrollto={'#groups'} class="loadClassBtn" on:click={() => loadPreviousClass()}
+    <button class="loadClassBtn" on:click={() => loadPreviousClass()}
       >Load previous class!</button
     >
     <br />
@@ -110,6 +109,7 @@
       </div>
     </div>
     <div class="btnContainer">
+      
       <button on:click={() => createClass()}>Add Student(s)</button>
       <button class="danger" on:click={() => resetData()}>Reset</button>
     </div>
@@ -136,7 +136,7 @@
 
   <!-- Students list -->
   <section class="studentsListContainer">
-    <h2>List of students:</h2>
+    <h2 id="studentsList">List of students:</h2>
     {#if students.length === 0}
       <p>You're class is empty, please add students.</p>
     {:else}
