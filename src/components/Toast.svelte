@@ -29,9 +29,9 @@
 <style>
   .notifications {
     position: fixed;
-    top: 10px;
-    left: 0;
-    right: 0;
+    bottom: 20px;
+    /* left: 0; */
+    right: 20px;
     margin: 0 auto;
     padding: 0;
     z-index: 9999;
@@ -41,12 +41,10 @@
     align-items: center;
     pointer-events: none;
   }
-
   .toast {
     flex: 0 0 auto;
     margin-bottom: 10px;
   }
-
   .content {
     padding: 10px;
     display: block;
