@@ -1,10 +1,12 @@
 <script lang="ts">
-  import { notifications } from "./notifications";
+  // import { scrollto } from "svelte-scrollto";
   import Toast from "./components/Toast.svelte";
-
-  function generateRandomNumber(lower: number, upper: number) {
-    return Math.floor(Math.random() * (upper + 1 - lower)) + lower;
-  }
+  import { notifications } from "./notifications";
+  import { capitalizeNames } from "./tools/capitalizeNames";
+  import { capitalizeSingleName } from "./tools/capitalizeSingleName";
+  import { generateRandomNumber } from "./tools/getRandomNumber";
+  import { normalizeName } from "./tools/normalizeName";
+  import { sortAlphabetically } from "./tools/sortClassAlphabetically";
 
   // Creates groups of 2 people by default
   function createGroups() {
@@ -29,13 +31,15 @@
     location.href = "#groups"
   }
   function createClass() {
-    const value = studentsInput.split(",").map((student) => {
-      const normalizedName = student.trim().toLowerCase();
-      return normalizedName[0].toLocaleUpperCase() + normalizedName.slice(1);
+    const studentsClass = studentsInput.split(",").map((student) => {
+      const normalizedName = normalizeName(student);
+      if (normalizedName.indexOf(" ") >= 0) {
+        return capitalizeNames(normalizedName);
+      } else {
+        return capitalizeSingleName(normalizedName);
+      }
     });
-    students = [...students, ...value];
-
-    location.href = "#studentsList"
+    students = sortAlphabetically([...students, ...studentsClass]);
   }
   function handleReturn(e) {
     if (e.code === "Enter") {
@@ -52,7 +56,7 @@
   }
   function loadPreviousClass() {
     const savedClass = window.localStorage.getItem("class").split(" , ");
-    students = [...savedClass];
+    students = [...sortAlphabetically(savedClass)];
     notifications.info("Class successfully loaded!", 3000);
   }
   function copyGroupsToClipboard() {
@@ -85,6 +89,8 @@
   <Toast />
   <h1>Student Groups Randomizer!</h1>
   <!-- Check LocalStorage for previous saved class and display btn -->
+  <!-- use:scrollto={"#groups"} -->
+
   {#if window.localStorage.getItem("class")}
     <button class="loadClassBtn" on:click={() => loadPreviousClass()}
       >Load previous class!</button
@@ -170,7 +176,6 @@
 </main>
 
 <style>
-
   :root {
     scroll-behavior: smooth;
   }
@@ -244,10 +249,14 @@
     border: 2px solid hsl(104.7, 64.6%, 15.5%);
   }
 
+  button.loadClassBtn {
+    max-width: 300px;
+  }
+
   ol {
     padding-left: 0;
     width: 100%;
-    max-width: 200px;
+    max-width: 230px;
   }
   ol > li {
     cursor: pointer;

@@ -6,7 +6,6 @@ specifiers:
   svelte: ^3.37.0
   svelte-check: ^2.1.0
   svelte-preprocess: ^4.7.2
-  svelte-scrollto: ^0.2.0
   tslib: ^2.2.0
   typescript: ^4.3.2
   vite: ^2.4.4
@@ -17,7 +16,6 @@ devDependencies:
   svelte: 3.42.1
   svelte-check: 2.2.4_svelte@3.42.1
   svelte-preprocess: 4.7.4_svelte@3.42.1+typescript@4.3.5
-  svelte-scrollto: 0.2.0
   tslib: 2.3.0
   typescript: 4.3.5
   vite: 2.4.4
@@ -518,12 +516,6 @@ packages:
       strip-indent: 3.0.0
       svelte: 3.42.1
       typescript: 4.3.5
-    dev: true
-
-  /svelte-scrollto/0.2.0:
-    resolution: {integrity: sha512-l4K2E4jr6dXCODtZDCkpp/TzknVVoq8gecHM0UOOmihvLosczdyLuyDUhZ+U2HkhLWi7nnimuOstZSFKtXSpmA==}
-    dependencies:
-      svelte: 3.42.1
     dev: true
 
   /svelte/3.42.1:
