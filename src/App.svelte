@@ -40,6 +40,7 @@
       }
     });
     students = sortAlphabetically([...students, ...studentsClass]);
+    location.href = "#studentsList"
   }
   function handleReturn(e) {
     if (e.code === "Enter") {
@@ -58,6 +59,7 @@
     const savedClass = window.localStorage.getItem("class").split(" , ");
     students = [...sortAlphabetically(savedClass)];
     notifications.info("Class successfully loaded!", 3000);
+    location.href = "#studentsList"
   }
   function copyGroupsToClipboard() {
     let string = "";
