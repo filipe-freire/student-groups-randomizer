@@ -123,24 +123,7 @@
     </div>
   </section>
 
-  <!-- Set Number of Group Members -->
-  {#if students.length > 1}
-    <div class="inputContainer groups">
-      <label for="numOfMembers"
-        >How many members do you want the groups to have?</label
-      >
-      <input
-        class="numOfMembersInput"
-        id="numOfMembers"
-        bind:value={numOfMembers}
-        type="number"
-      />
-    </div>
-    <div class="btnContainer">
-      <button on:click={() => createGroups()}>Create groups</button>
-      <button class="saveBtn" on:click={() => saveClass()}>Save Class!</button>
-    </div>
-  {/if}
+  
 
   <!-- Students list -->
   <section class="studentsListContainer">
@@ -161,10 +144,29 @@
     {/if}
   </section>
 
+  <!-- Set Number of Group Members -->
+  {#if students.length > 1}
+    <div class="inputContainer groups">
+      <label for="numOfMembers"
+        >How many members do you want the groups to have?</label
+      >
+      <input
+        class="numOfMembersInput"
+        id="numOfMembers"
+        bind:value={numOfMembers}
+        type="number"
+      />
+    </div>
+    <div class="btnContainer">
+      <button on:click={() => createGroups()}>Create groups</button>
+      <button class="saveBtn" on:click={() => saveClass()}>Save Class!</button>
+    </div>
+  {/if}
+
   <!-- Final Groups -->
   <section id="groups" class="groupsContainer">
+    <h2>Final Groups</h2>
     {#if groups.length}
-      <h2>Final Groups</h2>
       {#each groups as group, i}
         <p class="group"><b>Group {i + 1}</b>: {group.join(" - ")}</p>
       {/each}
@@ -173,6 +175,8 @@
       <button on:click={() => copyGroupsToClipboard()}
         >Copy Groups to Clipboard!</button
       >
+      {:else}
+      <p style="text-align: center;">No groups were created yet!</p>
     {/if}
   </section>
 </main>
