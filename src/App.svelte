@@ -28,7 +28,7 @@
       finalGroups.push(group);
     }
     groups = [...finalGroups];
-    location.href = "#groups"
+    location.href = "#groups";
   }
   function createClass() {
     const studentsClass = studentsInput.split(",").map((student) => {
@@ -40,7 +40,7 @@
       }
     });
     students = sortAlphabetically([...students, ...studentsClass]);
-    location.href = "#studentsList"
+    location.href = "#studentsList";
   }
   function handleReturn(e) {
     if (e.code === "Enter") {
@@ -59,7 +59,7 @@
     const savedClass = window.localStorage.getItem("class").split(" , ");
     students = [...sortAlphabetically(savedClass)];
     notifications.info("Class successfully loaded!", 3000);
-    location.href = "#studentsList"
+    location.href = "#studentsList";
   }
   function copyGroupsToClipboard() {
     let string = "";
@@ -117,13 +117,10 @@
       </div>
     </div>
     <div class="btnContainer">
-      
       <button on:click={() => createClass()}>Add Student(s)</button>
       <button class="danger" on:click={() => resetData()}>Reset</button>
     </div>
   </section>
-
-  
 
   <!-- Students list -->
   <section class="studentsListContainer">
@@ -175,7 +172,7 @@
       <button on:click={() => copyGroupsToClipboard()}
         >Copy Groups to Clipboard!</button
       >
-      {:else}
+    {:else}
       <p style="text-align: center;">No groups were created yet!</p>
     {/if}
   </section>
@@ -308,7 +305,7 @@
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    max-width: 400px;
+    /* max-width: 400px; */
   }
   .inputContainer.groups {
     gap: 3rem;
@@ -325,6 +322,10 @@
   .addStudentsContainer {
     flex-direction: column;
   }
+  .addStudentsContainer > div {
+    max-width: 450px;
+    width: 100%;
+  }
   .addStudentsContainer,
   .studentsListContainer {
     display: flex;
@@ -338,9 +339,6 @@
   }
   .studentsListContainer > h2 {
     margin: 2em auto 1em;
-  }
-  .addStudentInput {
-    max-width: 300px;
   }
 
   .studentsLabel {
