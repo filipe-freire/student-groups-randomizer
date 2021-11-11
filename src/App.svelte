@@ -41,11 +41,11 @@
     });
     students = sortAlphabetically([...students, ...studentsClass]);
     location.href = "#studentsList";
+    studentsInput = "";
   }
   function handleReturn(e) {
     if (e.code === "Enter") {
       createClass();
-      studentsInput = "";
     }
   }
   function saveClass() {
