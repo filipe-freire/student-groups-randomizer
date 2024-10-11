@@ -1,8 +1,18 @@
 import { derived, writable } from 'svelte/store';
 import { translations, type ILocale, type ITranslation } from './translations';
 
-export const locale = writable<ILocale>('en');
-export const locales = Object.keys(translations);
+export const locales = Object.keys(translations) as ReadonlyArray<string>;
+
+function checkForLocaleInLocalStorage(): ILocale {
+	const localeFromLocalStorage = localStorage.getItem('locale') || '🇺🇸 en';
+
+	if (!locales.includes(localeFromLocalStorage)) {
+		return '🇺🇸 en';
+	}
+	return localeFromLocalStorage as ILocale;
+}
+
+export const locale = writable<ILocale>(checkForLocaleInLocalStorage());
 
 function translate(locale: ILocale, key: ITranslation, vars: Record<string, string>) {
 	// Let's throw some errors if we're trying to use keys/locales that don't exist.

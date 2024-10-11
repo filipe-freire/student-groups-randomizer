@@ -1,5 +1,8 @@
 export const translations = {
-	en: {
+	'🇺🇸 en': {
+		languageLabel: 'Language',
+
+		// App Specific
 		title: 'Student Groups Randomizer!',
 		loadClassBtn: 'Load previous class!',
 		addStudentsLabel: 'Student(s)',
@@ -23,14 +26,15 @@ export const translations = {
 		'toast.loadedPreviousClass': 'Class loaded successfully',
 		'toast.savedClass': 'Class successfully saved for the next visit! 🎉'
 	},
-	'pt-pt': {
+	'🇵🇹 pt-pt': {
+		languageLabel: 'Idioma',
 		title: 'Gerador de Grupos de Estudantes!',
 		loadClassBtn: 'Importar turma anterior',
 		addStudentsLabel: 'Aluno(s)',
 		addStudentsPlaceholder: 'Ex: aluno1, aluno2, aluno3...',
 		createClassBtn: 'Adicionar Aluno(s)',
 		studentsListLabel: 'Alunos',
-		resetDataBtn: 'Reset',
+		resetDataBtn: 'Limpar',
 		studentsListPlaceholder: 'A turma está vazia, por favor adicione alunos.',
 		numOfMembersLabel: 'Quantos membros pretende que os grupos tenham?',
 		groupsLabel: 'Grupos Finais',

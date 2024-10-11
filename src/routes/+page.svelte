@@ -6,6 +6,7 @@
 	import { generateRandomNumber } from '$lib/utils/getRandomNumber';
 	import { normalizeName } from '$lib/utils/normalizeName';
 	import { sortNamesAlphabetically } from '$lib/utils/sortNamesAlphabetically';
+	import { onMount } from 'svelte';
 
 	let studentsInput = $state('');
 	let students: string[] = $state([]);
@@ -59,6 +60,11 @@
 			text: $t('toast.savedClass')
 		});
 	}
+
+	onMount(() => {
+		loadPreviousClass();
+	});
+
 	function loadPreviousClass() {
 		const savedClass = window.localStorage.getItem('class')?.split(' , ');
 		students = [...sortNamesAlphabetically(savedClass!)];
@@ -99,10 +105,10 @@
 	<h1 class="text-4xl py-10 font-bold break-words text-center">{$t('title')}</h1>
 
 	<!-- Check LocalStorage for previous saved class and display btn -->
-	{#if window.localStorage.getItem('class')}
+	<!-- {#if window.localStorage.getItem('class')}
 		<button class="loadClassBtn" onclick={() => loadPreviousClass()}>{$t('loadClassBtn')}</button>
 		<br />
-	{/if}
+	{/if} -->
 
 	<section class="addStudentsContainer">
 		<div>
@@ -184,8 +190,7 @@
 		padding: 1em 3rem 3em;
 	}
 	button {
-		display: block;
-		padding: 1.5ch 2ch;
+		padding: 1.5ch 1ch;
 		border: 2px solid hsl(209, 36%, 47%);
 		background-color: hsl(209, 80%, 70%);
 		color: hsl(0, 0%, 100%);
@@ -201,14 +206,14 @@
 		cursor: pointer;
 		transition: all 100ms ease-out;
 		width: 100%;
-		max-width: 200px;
+		max-width: 250px;
 		margin: 0 auto;
 		display: block;
 	}
 	.btnContainer {
 		display: flex;
 		justify-content: space-between;
-		max-width: 290px;
+		max-width: 450px;
 		gap: 0.5rem;
 		margin: 0 auto;
 	}
@@ -241,10 +246,6 @@
 	button.saveBtn:active {
 		background-color: hsl(98, 38%, 40%);
 		border: 2px solid hsl(104.7, 64.6%, 15.5%);
-	}
-
-	button.loadClassBtn {
-		max-width: 300px;
 	}
 
 	ol {
@@ -297,7 +298,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-evenly;
-		/* max-width: 400px; */
+		max-width: 400px;
 	}
 	.inputContainer.groups {
 		gap: 3rem;
