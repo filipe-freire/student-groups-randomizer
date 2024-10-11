@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { t } from '$lib/i18n';
 	import { toast } from '$lib/stores/toast';
 	import { capitalizeNames } from '$lib/utils/capitalizeNames';
 	import { capitalizeSingleName } from '$lib/utils/capitalizeSingleName';
@@ -55,7 +56,7 @@
 		window.localStorage.setItem('class', students.join(' , '));
 		toast.add({
 			type: 'success',
-			text: 'Class successfully saved for the next visit! 🎉'
+			text: $t('toast.savedClass')
 		});
 	}
 	function loadPreviousClass() {
@@ -63,7 +64,7 @@
 		students = [...sortNamesAlphabetically(savedClass!)];
 		toast.add({
 			type: 'info',
-			text: 'Class successfully loaded!'
+			text: `${$t('toast.loadedPreviousClass')}`
 		});
 		location.href = '#studentsList';
 	}
@@ -71,13 +72,13 @@
 		let string = '';
 
 		groups.forEach((group, i) => {
-			string += `Group ${i + 1}: ${group.join(' - ')}` + '\n';
+			string += `${$t('groupLabel')} ${i + 1}: ${group.join(' - ')}` + '\n';
 		});
 
 		navigator.clipboard.writeText(string);
 		toast.add({
 			type: 'success',
-			text: 'Groups successfully copied to clipboard!'
+			text: $t('toast.groupsCopiedToClipboard')
 		});
 	}
 	function resetData() {
@@ -86,7 +87,7 @@
 
 		toast.add({
 			type: 'info',
-			text: 'Data was cleared! ✅'
+			text: `${$t('toast.resetDataBtn')}`
 		});
 	}
 	function deleteStudent(i: number) {
@@ -95,45 +96,48 @@
 </script>
 
 <main>
-	<h1 class="text-4xl py-10 font-bold break-words text-center">Student Groups Randomizer!</h1>
+	<h1 class="text-4xl py-10 font-bold break-words text-center">{$t('title')}</h1>
 
 	<!-- Check LocalStorage for previous saved class and display btn -->
 	{#if window.localStorage.getItem('class')}
-		<button class="loadClassBtn" onclick={() => loadPreviousClass()}>Load previous class!</button>
+		<button class="loadClassBtn" onclick={() => loadPreviousClass()}>{$t('loadClassBtn')}</button>
 		<br />
 	{/if}
 
 	<section class="addStudentsContainer">
 		<div>
-			<label class="studentsLabel" for="addStudent"><i class="fas fa-user"></i> Student(s) </label>
+			<label class="studentsLabel" for="addStudent"
+				><i class="fas fa-user"></i> {$t('addStudentsLabel')}
+			</label>
 			<div class="inputContainer">
 				<input
 					class="addStudentInput"
 					id="addStudent"
 					type="text"
-					placeholder="Ex: student1, student2, student3..."
+					placeholder={$t('addStudentsPlaceholder')}
 					bind:value={studentsInput}
 					onkeyup={(e) => handleReturn(e)}
 				/>
 			</div>
 		</div>
 		<div class="btnContainer">
-			<button onclick={() => createClass()}>Add Student(s)</button>
-			<button class="danger" onclick={() => resetData()}>Reset</button>
+			<button onclick={() => createClass()}>{$t('createClassBtn')}</button>
+			<button class="danger" onclick={() => resetData()}>{$t('resetDataBtn')}</button>
 		</div>
 	</section>
 
 	<!-- Students list -->
 	<section class="studentsListContainer">
-		<h2 id="studentsList" class="text-2xl font-bold">Students:</h2>
+		<h2 id="studentsList" class="text-2xl font-bold">{$t('studentsListLabel')}:</h2>
 		{#if students.length === 0}
-			<p>You're class is empty, please add students.</p>
+			<p>{$t('studentsListPlaceholder')}</p>
 		{:else}
 			<ol>
 				{#each students as student, i}
 					<li class="student">
 						<p>{i + 1}. {student}</p>
-						<button class="danger" onclick={() => deleteStudent(i)}>Remove</button>
+						<button class="danger" onclick={() => deleteStudent(i)}>{$t('deleteStudentBtn')}</button
+						>
 					</li>
 				{/each}
 			</ol>
@@ -143,27 +147,29 @@
 	<!-- Set Number of Group Members -->
 	{#if students.length > 1}
 		<div class="inputContainer groups">
-			<label for="numOfMembers">How many members do you want the groups to have?</label>
+			<label for="numOfMembers">{$t('numOfMembersLabel')}</label>
 			<input class="numOfMembersInput" id="numOfMembers" bind:value={numOfMembers} type="number" />
 		</div>
 		<div class="btnContainer">
-			<button onclick={() => createGroups()}>Create groups</button>
-			<button class="saveBtn" onclick={() => saveClass()}>Save Class!</button>
+			<button onclick={() => createGroups()}>{$t('createGroupsBtn')}</button>
+			<button class="saveBtn" onclick={() => saveClass()}>{$t('saveClassBtn')}</button>
 		</div>
 	{/if}
 
 	<!-- Final Groups -->
 	<section id="groups" class="groupsContainer">
-		<h2 class="text-2xl font-bold">Final Groups</h2>
+		<h2 class="text-2xl font-bold">{$t('groupsLabel')}</h2>
 		{#if groups.length}
 			{#each groups as group, i}
-				<p class="group"><b>Group {i + 1}</b>: {group.join(' - ')}</p>
+				<p class="group"><b>{$t('groupLabel')} {i + 1}</b>: {group.join(' - ')}</p>
 			{/each}
 
 			<!-- Copy Groups to Clipboard -->
-			<button onclick={() => copyGroupsToClipboard()}>Copy Groups to Clipboard!</button>
+			<button class="leading-5" onclick={() => copyGroupsToClipboard()}
+				>{$t('copyGroupsBtn')}</button
+			>
 		{:else}
-			<p style="text-align: center;">No groups were created yet!</p>
+			<p style="text-align: center;">{$t('groupsPlaceholder')}</p>
 		{/if}
 	</section>
 </main>
@@ -189,7 +195,6 @@
 		text-transform: uppercase;
 		letter-spacing: 1.8px;
 		text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.39);
-		line-height: 2ch;
 		box-shadow:
 			rgba(17, 17, 26, 0.05) 0px 1px 0px,
 			rgba(17, 17, 26, 0.1) 0px 0px 8px;
