@@ -8,10 +8,6 @@ export type IToast = {
 	id: number;
 	text: string;
 	type: 'success' | 'error' | 'warning' | 'info';
-	action?: {
-		text: string;
-		callback: VoidFunction;
-	};
 };
 
 type AddToastOptions = Partial<Omit<IToast, 'id'>>;
