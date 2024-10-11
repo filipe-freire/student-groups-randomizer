@@ -28,7 +28,7 @@ export const translations = {
 	},
 	'🇵🇹 pt-pt': {
 		languageLabel: 'Idioma',
-		title: 'Gerador de Grupos de Estudantes!',
+		title: 'Gerador de Grupos de Alunos!',
 		loadClassBtn: 'Importar turma anterior',
 		addStudentsLabel: 'Aluno(s)',
 		addStudentsPlaceholder: 'Ex: aluno1, aluno2, aluno3...',
