@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { t } from '$lib/i18n';
+	import { locale, locales, t } from '$lib/i18n';
 	import { toast } from '$lib/stores/toast';
 	import { capitalizeNames } from '$lib/utils/capitalizeNames';
 	import { capitalizeSingleName } from '$lib/utils/capitalizeSingleName';
@@ -112,12 +112,13 @@
 
 	<section class="addStudentsContainer">
 		<div>
-			<label class="studentsLabel" for="addStudent"
-				><i class="fas fa-user"></i> {$t('addStudentsLabel')}
+			<label class="mt-6 block" for="addStudent">
+				<i class="fas fa-user"></i>
+				{$t('addStudentsLabel')}
 			</label>
 			<div class="inputContainer">
 				<input
-					class="addStudentInput"
+					class="block w-full rounded border-2 border-blue-200 px-4 py-3 tracking-wider shadow-sm"
 					id="addStudent"
 					type="text"
 					placeholder={$t('addStudentsPlaceholder')}
@@ -133,10 +134,12 @@
 	</section>
 
 	<!-- Students list -->
-	<section class="studentsListContainer">
-		<h2 id="studentsList" class="text-2xl font-bold">{$t('studentsListLabel')}:</h2>
+	<section class="flex flex-col items-center justify-evenly gap-4">
+		<h2 id="studentsList" class="mx-auto mb-4 mt-8 text-2xl font-bold">
+			{$t('studentsListLabel')}:
+		</h2>
 		{#if students.length === 0}
-			<p>{$t('studentsListPlaceholder')}</p>
+			<p class="italic">{$t('studentsListPlaceholder')}</p>
 		{:else}
 			<ol class="w-full max-w-60 pl-0">
 				{#each students as student, i}
@@ -154,7 +157,12 @@
 	{#if students.length > 1}
 		<div class="inputContainer groups">
 			<label for="numOfMembers">{$t('numOfMembersLabel')}</label>
-			<input class="max-w-20" id="numOfMembers" bind:value={numOfMembers} type="number" />
+			<input
+				class="block w-full max-w-20 rounded border-2 border-blue-200 px-4 py-3 tracking-wider shadow-sm"
+				id="numOfMembers"
+				bind:value={numOfMembers}
+				type="number"
+			/>
 		</div>
 		<div class="btnContainer">
 			<button onclick={() => createGroups()}>{$t('createGroupsBtn')}</button>
@@ -163,21 +171,50 @@
 	{/if}
 
 	<!-- Final Groups -->
-	<section id="groups" class="groupsContainer">
-		<h2 class="text-2xl font-bold">{$t('groupsLabel')}</h2>
+	<section id="groups" class="mx-auto mt-12 max-w-md">
+		<h2 class="mx-auto mt-8 text-center text-2xl font-bold">{$t('groupsLabel')}</h2>
 		{#if groups.length}
-			{#each groups as group, i}
-				<p class="group"><b>{$t('groupLabel')} {i + 1}</b>: {group.join(' - ')}</p>
-			{/each}
+			<div>
+				{#each groups as group, i}
+					<p class="group mt-6 text-lg last:mb-8">
+						<b>{$t('groupLabel')} {i + 1}</b>: {group.join(' - ')}
+					</p>
+				{/each}
+			</div>
 
 			<!-- Copy Groups to Clipboard -->
 			<button class="leading-5" onclick={() => copyGroupsToClipboard()}
 				>{$t('copyGroupsBtn')}</button
 			>
 		{:else}
-			<p style="text-align: center;">{$t('groupsPlaceholder')}</p>
+			<p class="mt-6 text-center italic">{$t('groupsPlaceholder')}</p>
 		{/if}
 	</section>
+
+	<footer class="mt-16">
+		<div class="text-center">
+			<label>
+				<span class="pr-2">{$t('languageLabel')}:</span>
+				<select
+					class="mx-auto inline-block rounded-md border border-blue-300 bg-blue-100 p-1.5 pl-3 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
+					bind:value={$locale}
+					name="language"
+					id="language"
+					onchange={() => {
+						localStorage.setItem('lang', $locale);
+						locale.set($locale);
+					}}
+				>
+					{#each locales as l}
+						<option selected={$locale === l} value={l}>{l}</option>
+					{/each}
+				</select>
+			</label>
+		</div>
+		<p class="mt-6 text-center text-gray-700">
+			<span class="italic">Filipe Freire</span> | {new Date().getFullYear()}
+		</p>
+	</footer>
 </main>
 
 <style>
@@ -260,25 +297,6 @@
 		margin-top: 1em;
 	}
 
-	input {
-		padding: 1ch 2ch;
-		border: 2px solid rgb(156, 191, 224);
-		border-radius: 5px;
-		letter-spacing: 0.8px;
-		box-shadow:
-			rgba(17, 17, 26, 0.05) 0px 1px 0px,
-			rgba(17, 17, 26, 0.1) 0px 0px 8px;
-	}
-
-	input[type='number'] {
-		border: 2px solid hsla(263, 48%, 54%, 0.8);
-	}
-
-	input {
-		width: 100%;
-		display: block;
-	}
-
 	.inputContainer {
 		margin: 2em auto;
 		display: flex;
@@ -301,57 +319,16 @@
 		max-width: 450px;
 		width: 100%;
 	}
-	.addStudentsContainer,
-	.studentsListContainer {
+	.addStudentsContainer {
 		display: flex;
 		justify-content: space-evenly;
 		align-items: center;
-	}
-
-	.studentsListContainer {
-		flex-direction: column;
-		gap: 1em;
-	}
-	.studentsListContainer > h2 {
-		margin: 2em auto 1em;
-	}
-
-	.studentsLabel {
-		display: block;
-		margin-top: 1.5em;
-	}
-
-	p.group {
-		font-size: 1.1rem;
-	}
-	p.group + p.group {
-		margin-top: 1em;
-	}
-	p.group:last-of-type {
-		margin-bottom: 1em;
-	}
-
-	.groupsContainer {
-		margin: 2em auto;
-		max-width: 400px;
-	}
-	.groupsContainer > h2 {
-		margin: 2em auto;
-		text-align: center;
-	}
-	.groupsContainer > p {
-		margin: 2em auto;
-		display: block;
-	}
-	.groupsContainer > p:last-of-type {
-		margin-bottom: 3em;
 	}
 
 	@media screen and (max-width: 400px) {
 		.btnContainer {
 			flex-direction: column;
 			justify-content: space-between;
-			/* background-color: aqua; */
 			min-height: 80px;
 			max-width: 200px;
 			margin: 0 auto;

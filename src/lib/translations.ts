@@ -4,7 +4,7 @@ export const translations = {
 
 		// App Specific
 		title: 'Student Groups Randomizer!',
-		loadClassBtn: 'Load previous class!',
+		loadClassBtn: 'Load previous class',
 		addStudentsLabel: 'Student(s)',
 		addStudentsPlaceholder: 'Ex: student1, student2, student3...',
 		createClassBtn: 'Add Student(s)',
