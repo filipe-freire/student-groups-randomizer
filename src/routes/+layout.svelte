@@ -10,10 +10,10 @@
 
 <Toast />
 
-<label class="block pt-2 pl-4" for="language">
+<label class="block pl-4 pt-2" for="language">
 	{$t('languageLabel')}
 	<select
-		class="bg-blue-100 border border-blue-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block p-2.5"
+		class="block rounded-md border border-blue-300 bg-blue-100 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
 		bind:value={$locale}
 		name="language"
 		id="language"

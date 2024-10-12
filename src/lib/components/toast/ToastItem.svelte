@@ -51,7 +51,7 @@
 
 <li
 	class={twMerge(
-		'relative shadow-lg mb-2 w-fit min-w-80 max-w-80 overflow-hidden rounded-md border-l-8 bg-slate-100 py-2 pl-4 pr-10 shadow-toast before:w-full',
+		'shadow-toast relative mb-2 w-fit min-w-80 max-w-80 overflow-hidden rounded-md border-l-8 bg-slate-100 py-2 pl-4 pr-10 shadow-lg before:w-full',
 		item.type === 'info' && 'border-blue-400 before:bg-blue-400',
 		item.type === 'error' && 'border-red-400 before:bg-red-400',
 		item.type === 'success' && 'border-green-400 before:bg-green-400',

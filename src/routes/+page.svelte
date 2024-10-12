@@ -101,8 +101,8 @@
 	}
 </script>
 
-<main class="max-w-4xl px-12 pb-12 pt-4 mx-auto">
-	<h1 class="text-4xl py-10 font-bold break-words text-center">{$t('title')}</h1>
+<main class="mx-auto max-w-4xl px-12 pb-12 pt-4">
+	<h1 class="break-words py-10 text-center text-4xl font-bold">{$t('title')}</h1>
 
 	<!-- Check LocalStorage for previous saved class and display btn -->
 	{#if window.localStorage.getItem('class')}
@@ -138,7 +138,7 @@
 		{#if students.length === 0}
 			<p>{$t('studentsListPlaceholder')}</p>
 		{:else}
-			<ol class="pl-0 w-full max-w-60">
+			<ol class="w-full max-w-60 pl-0">
 				{#each students as student, i}
 					<li class="student">
 						<p>{i + 1}. {student}</p>
