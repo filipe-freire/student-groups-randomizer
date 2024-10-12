@@ -101,14 +101,14 @@
 	}
 </script>
 
-<main>
+<main class="max-w-4xl px-12 pb-12 pt-4 mx-auto">
 	<h1 class="text-4xl py-10 font-bold break-words text-center">{$t('title')}</h1>
 
 	<!-- Check LocalStorage for previous saved class and display btn -->
-	<!-- {#if window.localStorage.getItem('class')}
+	{#if window.localStorage.getItem('class')}
 		<button class="loadClassBtn" onclick={() => loadPreviousClass()}>{$t('loadClassBtn')}</button>
 		<br />
-	{/if} -->
+	{/if}
 
 	<section class="addStudentsContainer">
 		<div>
@@ -138,7 +138,7 @@
 		{#if students.length === 0}
 			<p>{$t('studentsListPlaceholder')}</p>
 		{:else}
-			<ol>
+			<ol class="pl-0 w-full max-w-60">
 				{#each students as student, i}
 					<li class="student">
 						<p>{i + 1}. {student}</p>
@@ -154,7 +154,7 @@
 	{#if students.length > 1}
 		<div class="inputContainer groups">
 			<label for="numOfMembers">{$t('numOfMembersLabel')}</label>
-			<input class="numOfMembersInput" id="numOfMembers" bind:value={numOfMembers} type="number" />
+			<input class="max-w-20" id="numOfMembers" bind:value={numOfMembers} type="number" />
 		</div>
 		<div class="btnContainer">
 			<button onclick={() => createGroups()}>{$t('createGroupsBtn')}</button>
@@ -181,14 +181,6 @@
 </main>
 
 <style>
-	:root {
-		scroll-behavior: smooth;
-	}
-	main {
-		max-width: 900px;
-		margin: 0 auto;
-		padding: 1em 3rem 3em;
-	}
 	button {
 		padding: 1.5ch 1ch;
 		border: 2px solid hsl(209, 36%, 47%);
@@ -248,13 +240,7 @@
 		border: 2px solid hsl(104.7, 64.6%, 15.5%);
 	}
 
-	ol {
-		padding-left: 0;
-		width: 100%;
-		max-width: 230px;
-	}
 	ol > li {
-		cursor: pointer;
 		width: 100%;
 	}
 
@@ -298,7 +284,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-evenly;
-		max-width: 400px;
+		max-width: 450px;
 	}
 	.inputContainer.groups {
 		gap: 3rem;
@@ -306,10 +292,6 @@
 	.inputContainer.groups > label {
 		max-width: 260px;
 		line-height: 2.2ch;
-	}
-
-	.numOfMembersInput {
-		max-width: 80px;
 	}
 
 	.addStudentsContainer {

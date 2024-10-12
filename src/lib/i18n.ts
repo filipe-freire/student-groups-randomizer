@@ -4,7 +4,7 @@ import { translations, type ILocale, type ITranslation } from './translations';
 export const locales = Object.keys(translations) as ReadonlyArray<string>;
 
 function checkForLocaleInLocalStorage(): ILocale {
-	const localeFromLocalStorage = localStorage.getItem('locale') || '🇺🇸 en';
+	const localeFromLocalStorage = localStorage.getItem('lang') || '🇺🇸 en';
 
 	if (!locales.includes(localeFromLocalStorage)) {
 		return '🇺🇸 en';

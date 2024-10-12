@@ -4,6 +4,10 @@
 	import '../app.postcss';
 </script>
 
+<svelte:head>
+	<title>{$t('title')}</title>
+</svelte:head>
+
 <Toast />
 
 <label class="block pt-2 pl-4" for="language">
