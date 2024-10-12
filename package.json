@@ -1,5 +1,5 @@
 {
-	"name": "student-groups-randomizer",
+	"name": "student-groups-generator",
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
@@ -13,7 +13,7 @@
 		"format": "prettier --write .",
 		"test:integration": "playwright test",
 		"test:unit": "vitest",
-		"deploy:surge": "pnpm dlx surge ./build student-groups-randomizer.surge.sh"
+		"deploy:surge": "pnpm dlx surge ./build student-groups-generator.surge.sh"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.48.0",

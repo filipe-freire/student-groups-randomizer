@@ -3,7 +3,7 @@ export const translations = {
 		languageLabel: 'Language',
 
 		// App Specific
-		title: 'Student Groups Randomizer!',
+		title: 'Student Groups Generator!',
 		loadClassBtn: 'Load previous class',
 		addStudentsLabel: 'Student(s)',
 		addStudentsPlaceholder: 'Ex: student1, student2, student3...',

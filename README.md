@@ -1,4 +1,4 @@
-# Student Groups Randomizer
+# Student Groups Generator
 
 This project aims to ease the task of creating random groups of students, whenever necessary.
 
@@ -15,4 +15,4 @@ This project aims to ease the task of creating random groups of students, whenev
 
 ## Preview
 
-➡️ [https://student-groups-randomizer.surge.sh/](https://student-groups-randomizer.surge.sh/)
+➡️ [https://student-groups-generator.surge.sh/](https://student-groups-generator.surge.sh/)
