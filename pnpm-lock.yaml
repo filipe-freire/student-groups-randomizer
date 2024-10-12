@@ -16,49 +16,49 @@ importers:
         version: 1.5.0(svelte@5.0.0-next.264)
     devDependencies:
       '@playwright/test':
-        specifier: ^1.28.1
+        specifier: ^1.48.0
         version: 1.48.0
       '@sveltejs/adapter-static':
         specifier: ^3.0.5
         version: 3.0.5(@sveltejs/kit@2.7.0(@sveltejs/vite-plugin-svelte@4.0.0-next.8(svelte@5.0.0-next.264)(vite@5.4.8))(svelte@5.0.0-next.264)(vite@5.4.8))
       '@sveltejs/kit':
-        specifier: ^2.0.0
+        specifier: ^2.7.0
         version: 2.7.0(@sveltejs/vite-plugin-svelte@4.0.0-next.8(svelte@5.0.0-next.264)(vite@5.4.8))(svelte@5.0.0-next.264)(vite@5.4.8)
       '@sveltejs/vite-plugin-svelte':
-        specifier: ^4.0.0-next.6
+        specifier: 4.0.0-next.8
         version: 4.0.0-next.8(svelte@5.0.0-next.264)(vite@5.4.8)
       '@types/eslint':
-        specifier: ^9.6.0
+        specifier: ^9.6.1
         version: 9.6.1
       autoprefixer:
         specifier: ^10.4.20
         version: 10.4.20(postcss@8.4.47)
       eslint:
-        specifier: ^9.0.0
+        specifier: ^9.12.0
         version: 9.12.0(jiti@1.21.6)
       eslint-config-prettier:
         specifier: ^9.1.0
         version: 9.1.0(eslint@9.12.0(jiti@1.21.6))
       eslint-plugin-svelte:
-        specifier: ^2.36.0
+        specifier: ^2.44.1
         version: 2.44.1(eslint@9.12.0(jiti@1.21.6))(svelte@5.0.0-next.264)
       globals:
-        specifier: ^15.0.0
+        specifier: ^15.11.0
         version: 15.11.0
       postcss:
         specifier: ^8.4.47
         version: 8.4.47
       prettier:
-        specifier: ^3.1.1
+        specifier: ^3.3.3
         version: 3.3.3
       prettier-plugin-svelte:
-        specifier: ^3.1.2
+        specifier: ^3.2.7
         version: 3.2.7(prettier@3.3.3)(svelte@5.0.0-next.264)
       svelte:
-        specifier: ^5.0.0-next.1
+        specifier: 5.0.0-next.264
         version: 5.0.0-next.264
       svelte-check:
-        specifier: ^4.0.0
+        specifier: ^4.0.5
         version: 4.0.5(svelte@5.0.0-next.264)(typescript@5.6.3)
       tailwind-merge:
         specifier: ^2.5.3
@@ -67,16 +67,16 @@ importers:
         specifier: ^3.4.13
         version: 3.4.13
       typescript:
-        specifier: ^5.0.0
+        specifier: ^5.6.3
         version: 5.6.3
       typescript-eslint:
-        specifier: ^8.0.0
+        specifier: ^8.8.1
         version: 8.8.1(eslint@9.12.0(jiti@1.21.6))(typescript@5.6.3)
       vite:
-        specifier: ^5.0.3
+        specifier: ^5.4.8
         version: 5.4.8
       vitest:
-        specifier: ^2.0.0
+        specifier: ^2.1.2
         version: 2.1.2
 
 packages:
