@@ -8,7 +8,7 @@
 	import { twMerge } from 'tailwind-merge';
 	import Close from '../Icons/Close.svelte';
 
-	export let item: IToast;
+	let { item }: { item: IToast } = $props();
 
 	const ICONS = {
 		info: Info,
@@ -19,6 +19,7 @@
 
 	const START = 1;
 	const END = 0;
+
 	const progress = tweened(START);
 	const hasDuration = item.duration > 0;
 
@@ -28,15 +29,13 @@
 
 	function pause() {
 		if (!hasDuration) return;
-
-		progress.set($progress);
+		progress.set($progress, { duration: 0 });
 	}
 
 	async function resume() {
 		if (!hasDuration) return;
 
-		const progressLeft = END + $progress;
-		const remainingDuration = item.duration * progressLeft;
+		const remainingDuration = item.duration * $progress;
 
 		await progress.set(END, {
 			duration: remainingDuration
@@ -58,8 +57,8 @@
 		item.type === 'success' && 'border-green-400 before:bg-green-400',
 		item.type === 'warning' && 'border-yellow-400 before:bg-yellow-400'
 	)}
-	on:mouseenter={pause}
-	on:mouseleave={resume}
+	onmouseenter={pause}
+	onmouseleave={resume}
 	transition:fade
 >
 	<progress
@@ -77,6 +76,7 @@
 				'[&::-moz-progress-bar]:bg-yellow-400 [&::-webkit-progress-value]:bg-yellow-400'
 		)}
 	></progress>
+
 	<div class="flex items-center gap-3">
 		<Icon
 			class={twMerge(
@@ -100,7 +100,7 @@
 		</div>
 	</div>
 
-	<button class="absolute right-2 top-2 flex rounded-md" on:click={close}>
+	<button class="absolute right-2 top-2 flex rounded-md" onclick={close}>
 		<Close size="24" />
 	</button>
 </li>
