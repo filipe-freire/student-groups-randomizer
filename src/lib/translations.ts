@@ -5,7 +5,7 @@ export const translations = {
 		// App Specific
 		title: 'Student Groups Generator!',
 		loadClassBtn: 'Load previous class',
-		addStudentsLabel: 'Student(s)',
+		addStudentsLabel: "Student name's:",
 		addStudentsPlaceholder: 'Ex: student1, student2, student3...',
 		createClassBtn: 'Add Student(s)',
 		studentsListLabel: 'Students',
@@ -30,7 +30,7 @@ export const translations = {
 		languageLabel: 'Idioma',
 		title: 'Gerador de Grupos de Alunos!',
 		loadClassBtn: 'Importar turma anterior',
-		addStudentsLabel: 'Aluno(s)',
+		addStudentsLabel: 'Nome dos Alunos:',
 		addStudentsPlaceholder: 'Ex: aluno1, aluno2, aluno3...',
 		createClassBtn: 'Adicionar Aluno(s)',
 		studentsListLabel: 'Alunos',

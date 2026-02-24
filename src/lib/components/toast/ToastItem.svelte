@@ -1,11 +1,12 @@
 <script lang="ts">
 	import { toast, type IToast } from '$lib/stores/toast';
-	import { Cancel, CheckCircle, Close, Error, Info } from '@steeze-ui/material-design-icons';
+	import { Cancel, CheckCircle, Error, Info } from '@steeze-ui/material-design-icons';
 	import { Icon } from '@steeze-ui/svelte-icon';
 	import { onMount } from 'svelte';
 	import { tweened } from 'svelte/motion';
 	import { fade } from 'svelte/transition';
 	import { twMerge } from 'tailwind-merge';
+	import Close from '../Icons/Close.svelte';
 
 	export let item: IToast;
 
@@ -88,6 +89,7 @@
 			size="30"
 			src={ICONS[item.type]}
 		/>
+
 		<div class="flex flex-col gap-2">
 			<p class="text-xl font-semibold capitalize">
 				{item.type}
@@ -99,6 +101,6 @@
 	</div>
 
 	<button class="absolute right-2 top-2 flex rounded-md" on:click={close}>
-		<Icon src={Close} size="24" />
+		<Close size="24" />
 	</button>
 </li>
