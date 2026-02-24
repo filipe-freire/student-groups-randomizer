@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { locale, locales, t } from '$lib/i18n';
-	import { toast } from '$lib/stores/toast';
+	import { toast } from '$lib/stores/toast.svelte';
 	import { capitalizeNames } from '$lib/utils/capitalizeNames';
 	import { capitalizeSingleName } from '$lib/utils/capitalizeSingleName';
 	import { generateRandomNumber } from '$lib/utils/getRandomNumber';

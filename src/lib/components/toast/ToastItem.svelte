@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { toast, type IToast } from '$lib/stores/toast';
+	import { toast, type IToast } from '$lib/stores/toast.svelte';
 	import { Cancel, CheckCircle, Error, Info } from '@steeze-ui/material-design-icons';
 	import { Icon } from '@steeze-ui/svelte-icon';
 	import { onMount } from 'svelte';
