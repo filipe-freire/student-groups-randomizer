@@ -62,13 +62,12 @@
 		<br />
 	{/if}
 
-	<section class="addStudentsContainer">
-		<div>
+	<section class="flex flex-col items-center justify-evenly">
+		<div class="w-full max-w-md">
 			<label class="mt-6 block" for="addStudent">
-				<i class="fas fa-user"></i>
 				{i18n.t('addStudentsLabel')}
 			</label>
-			<div class="inputContainer">
+			<div class="mx-auto my-8 flex max-w-[450px] items-center justify-evenly">
 				<input
 					class="block w-full rounded border-2 border-blue-200 px-4 py-3 tracking-wider shadow-sm"
 					id="addStudent"
@@ -79,7 +78,7 @@
 				/>
 			</div>
 		</div>
-		<div class="btnContainer">
+		<div class="mx-auto flex max-w-md flex-col justify-between gap-2 sm:min-h-0 sm:flex-row">
 			<button
 				onclick={() => {
 					classStore.createClass(studentsInput);
@@ -157,8 +156,12 @@
 
 	<!-- Set Number of Group Members -->
 	{#if classStore.students.length > 1}
-		<div class="inputContainer groups">
-			<label for="numOfMembers">{i18n.t('numOfMembersLabel')}</label>
+		<div
+			class="mx-auto my-8 flex max-w-[450px] flex-col items-center justify-evenly gap-y-2 sm:flex-row"
+		>
+			<label class="max-w-64 leading-relaxed" for="numOfMembers"
+				>{i18n.t('numOfMembersLabel')}</label
+			>
 			<input
 				class="block w-full max-w-20 rounded border-2 border-blue-200 px-4 py-3 tracking-wider shadow-sm"
 				id="numOfMembers"
@@ -166,7 +169,7 @@
 				type="number"
 			/>
 		</div>
-		<div class="btnContainer">
+		<div class="mx-auto flex max-w-md flex-col justify-between gap-2 sm:min-h-0 sm:flex-row">
 			<button onclick={() => classStore.createGroups()}>{i18n.t('createGroupsBtn')}</button>
 			<button class="saveBtn" onclick={() => classStore.saveClass()}
 				>{i18n.t('saveClassBtn')}</button
@@ -227,7 +230,6 @@
 		background-color: hsl(209, 80%, 70%);
 		color: hsl(0, 0%, 100%);
 		font-weight: 600;
-		font-family: inherit;
 		border-radius: 5px;
 		text-transform: uppercase;
 		letter-spacing: 1.8px;
@@ -235,18 +237,10 @@
 		box-shadow:
 			rgba(17, 17, 26, 0.05) 0px 1px 0px,
 			rgba(17, 17, 26, 0.1) 0px 0px 8px;
-		cursor: pointer;
 		transition: all 100ms ease-out;
 		max-width: 250px;
 		margin: 0 auto;
 		display: block;
-	}
-	.btnContainer {
-		display: flex;
-		justify-content: space-between;
-		max-width: 450px;
-		gap: 0.5rem;
-		margin: 0 auto;
 	}
 
 	button:focus,
@@ -279,50 +273,9 @@
 		border: 2px solid hsl(104.7, 64.6%, 15.5%);
 	}
 
-	.inputContainer {
-		margin: 2em auto;
-		display: flex;
-		align-items: center;
-		justify-content: space-evenly;
-		max-width: 450px;
-	}
-	.inputContainer.groups {
-		gap: 3rem;
-	}
-	.inputContainer.groups > label {
-		max-width: 260px;
-		line-height: 2.2ch;
-	}
-
-	.addStudentsContainer {
-		flex-direction: column;
-	}
-	.addStudentsContainer > div {
-		max-width: 450px;
-		width: 100%;
-	}
-	.addStudentsContainer {
-		display: flex;
-		justify-content: space-evenly;
-		align-items: center;
-	}
-
 	@media screen and (max-width: 400px) {
-		.btnContainer {
-			flex-direction: column;
-			justify-content: space-between;
-			min-height: 80px;
-			max-width: 200px;
-			margin: 0 auto;
-		}
-
 		button.saveBtn {
 			margin-top: 1rem;
-		}
-
-		.inputContainer.groups {
-			flex-direction: column;
-			gap: 1rem;
 		}
 	}
 </style>

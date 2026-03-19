@@ -21,7 +21,7 @@
 	const END = 0;
 
 	const progress = tweened(START);
-	const hasDuration = item.duration > 0;
+	const hasDuration = $derived(item.duration > 0);
 
 	function close() {
 		toast.remove(item.id);
