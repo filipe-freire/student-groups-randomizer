@@ -1,13 +1,13 @@
 <script lang="ts">
 	import Toast from '$lib/components/toast/Toast.svelte';
-	import { t } from '$lib/i18n';
+	import { i18n } from '$lib/i18n.svelte';
 	import '../app.postcss';
 
 	let { children } = $props();
 </script>
 
 <svelte:head>
-	<title>{$t('title')}</title>
+	<title>{i18n.t('title')}</title>
 </svelte:head>
 
 <Toast />

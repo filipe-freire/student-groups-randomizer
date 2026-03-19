@@ -1,111 +1,64 @@
 <script lang="ts">
-	import { locale, locales, t } from '$lib/i18n';
+	import { i18n, locales } from '$lib/i18n.svelte';
+	import { classStore } from '$lib/stores/classStore.svelte';
 	import { toast } from '$lib/stores/toast.svelte';
-	import { capitalizeNames } from '$lib/utils/capitalizeNames';
-	import { capitalizeSingleName } from '$lib/utils/capitalizeSingleName';
-	import { generateRandomNumber } from '$lib/utils/getRandomNumber';
-	import { normalizeName } from '$lib/utils/normalizeName';
-	import { sortNamesAlphabetically } from '$lib/utils/sortNamesAlphabetically';
-	import { onMount } from 'svelte';
+	import { onMount, tick } from 'svelte';
 
 	let studentsInput = $state('');
-	let students: string[] = $state([]);
-	let groups: string[][] = $state([]);
-	let numOfMembers = $state(2);
+	let editingId = $state<string | null>(null);
+	let editingName = $state('');
+	let editingInput = $state<HTMLInputElement | null>(null);
 
 	onMount(() => {
-		loadPreviousClass();
+		classStore.loadPreviousClass();
 	});
 
-	// Creates groups of 2 people by default
-	function createGroups() {
-		if (!students.length || numOfMembers <= 0) return;
-		const studentsCopy = [...students];
-		const finalGroups: string[][] = [];
-
-		while (studentsCopy.length > 0) {
-			const group = [];
-			for (let i = 0; i < numOfMembers; i++) {
-				const randomIndex = generateRandomNumber(0, studentsCopy.length - 1);
-				if (studentsCopy.length) {
-					group.push(studentsCopy[randomIndex]);
-					studentsCopy.splice(randomIndex, 1);
-				} else {
-					break;
-				}
-			}
-			finalGroups.push(group);
-		}
-		groups = [...finalGroups];
-		location.href = '#groups';
-	}
-	function createClass() {
-		const studentsClass = studentsInput.split(',').map((student) => {
-			const normalizedName = normalizeName(student);
-			if (normalizedName.indexOf(' ') >= 0) {
-				return capitalizeNames(normalizedName);
-			} else {
-				return capitalizeSingleName(normalizedName);
-			}
-		});
-		students = sortNamesAlphabetically([...students, ...studentsClass]);
-		location.href = '#studentsList';
-		studentsInput = '';
-	}
 	function handleReturn(e: KeyboardEvent) {
 		if (e.code === 'Enter') {
-			createClass();
+			classStore.createClass(studentsInput);
+			studentsInput = '';
 		}
 	}
-	function saveClass() {
-		window.localStorage.setItem('class', students.join(' , '));
-		toast.add({
-			type: 'success',
-			text: $t('toast.savedClass')
-		});
+
+	async function startEditing(id: string) {
+		editingId = id;
+		editingName = classStore.students.find((s) => s.id === id)?.name ?? '';
+		await tick();
+		editingInput?.select();
 	}
-	function loadPreviousClass() {
-		const savedClass = window.localStorage.getItem('class')?.split(' , ');
-		students = [...sortNamesAlphabetically(savedClass!)];
-		toast.add({
-			type: 'info',
-			text: `${$t('toast.loadedPreviousClass')}`
-		});
-		location.href = '#studentsList';
+
+	function saveEdit() {
+		if (editingId === null) return;
+		classStore.updateStudentName(editingId, editingName);
+		cancelEdit();
 	}
+
+	function cancelEdit() {
+		editingId = null;
+		editingName = '';
+	}
+
 	function copyGroupsToClipboard() {
 		let string = '';
-
-		groups.forEach((group, i) => {
-			string += `${$t('groupLabel')} ${i + 1}: ${group.join(' - ')}` + '\n';
+		classStore.groups.forEach((group, i) => {
+			string += `${i18n.t('groupLabel')} ${i + 1}: ${group.join(' - ')}` + '\n';
 		});
-
 		navigator.clipboard.writeText(string);
 		toast.add({
 			type: 'success',
-			text: $t('toast.groupsCopiedToClipboard')
+			text: i18n.t('toast.groupsCopiedToClipboard')
 		});
-	}
-	function resetData() {
-		students.length = 0;
-		groups.length = 0;
-
-		toast.add({
-			type: 'info',
-			text: `${$t('toast.resetDataBtn')}`
-		});
-	}
-	function deleteStudent(i: number) {
-		students = students.filter((_, idx) => idx !== i);
 	}
 </script>
 
 <main class="mx-auto max-w-4xl px-12 pb-12 pt-4">
-	<h1 class="break-words py-10 text-center text-4xl font-bold">{$t('title')}</h1>
+	<h1 class="break-words py-10 text-center text-4xl font-bold">{i18n.t('title')}</h1>
 
 	<!-- Check LocalStorage for previous saved class and display btn -->
 	{#if window.localStorage.getItem('class')}
-		<button class="loadClassBtn" onclick={() => loadPreviousClass()}>{$t('loadClassBtn')}</button>
+		<button class="loadClassBtn" onclick={() => classStore.loadPreviousClass()}
+			>{i18n.t('loadClassBtn')}</button
+		>
 		<br />
 	{/if}
 
@@ -113,50 +66,87 @@
 		<div>
 			<label class="mt-6 block" for="addStudent">
 				<i class="fas fa-user"></i>
-				{$t('addStudentsLabel')}
+				{i18n.t('addStudentsLabel')}
 			</label>
 			<div class="inputContainer">
 				<input
 					class="block w-full rounded border-2 border-blue-200 px-4 py-3 tracking-wider shadow-sm"
 					id="addStudent"
 					type="text"
-					placeholder={$t('addStudentsPlaceholder')}
+					placeholder={i18n.t('addStudentsPlaceholder')}
 					bind:value={studentsInput}
 					onkeyup={(e) => handleReturn(e)}
 				/>
 			</div>
 		</div>
 		<div class="btnContainer">
-			<button onclick={() => createClass()}>{$t('createClassBtn')}</button>
-			<button class="danger" onclick={() => resetData()}>{$t('resetDataBtn')}</button>
+			<button
+				onclick={() => {
+					classStore.createClass(studentsInput);
+					studentsInput = '';
+				}}>{i18n.t('createClassBtn')}</button
+			>
+			<button class="danger" onclick={() => classStore.resetData()}>{i18n.t('resetDataBtn')}</button
+			>
 		</div>
 	</section>
 
 	<!-- Students list -->
 	<section class="flex flex-col items-center justify-evenly gap-4">
 		<h2 id="studentsList" class="mx-auto mb-4 mt-8 text-2xl font-bold">
-			{$t('studentsListLabel')}:
+			{i18n.t('studentsListLabel')}:
 		</h2>
-		{#if students.length === 0}
-			<p class="italic">{$t('studentsListPlaceholder')}</p>
+		{#if classStore.students.length === 0}
+			<p class="italic">{i18n.t('studentsListPlaceholder')}</p>
 		{:else}
 			<div
 				class="grid w-full max-w-3xl grid-rows-[auto_1fr] rounded-md outline outline-2 sm:w-screen"
 			>
 				<div class="grid grid-cols-[6%_67%_27%] items-center gap-x-1 border-b-2 p-2">
 					<p class="text-center font-semibold">#</p>
-					<p class="text-center font-semibold">{$t('tableStudentName')}</p>
-					<p class="text-center font-semibold">{$t('tableActions')}</p>
+					<p class="text-center font-semibold">{i18n.t('tableStudentName')}</p>
+					<p class="text-center font-semibold">{i18n.t('tableActions')}</p>
 				</div>
 				<div class="flex max-h-96 flex-col gap-y-1 overflow-scroll px-2">
-					{#each students as student, i}
+					{#each classStore.students as student, i}
 						<div class="grid grid-cols-[6%_67%_27%] items-center gap-x-1 py-2">
-							<p class="text-center">{students.indexOf(student) + 1}.</p>
-							<p class="line-clamp-2 break-words text-center">{student}</p>
-							<div>
-								<button class="danger !px-1.5 !text-xs" onclick={() => deleteStudent(i)}>
-									{$t('deleteStudentBtn')}
-								</button>
+							<p class="text-center">{i + 1}.</p>
+							{#if editingId === student.id}
+								<input
+									bind:this={editingInput}
+									class="line-clamp-2 break-words text-center"
+									type="text"
+									bind:value={editingName}
+									onkeyup={(e) => {
+										if (e.code === 'Enter') saveEdit();
+										if (e.code === 'Escape') cancelEdit();
+									}}
+								/>
+							{:else}
+								<p class="line-clamp-2 break-words text-center">{student.name}</p>
+							{/if}
+							<div class="flex gap-x-1">
+								{#if editingId === student.id}
+									<button class="!px-1.5 !text-xs" onclick={() => saveEdit()}>
+										{i18n.t('saveEditBtn')}
+									</button>
+									<button class="danger !px-1.5 !text-xs" onclick={() => cancelEdit()}>
+										{i18n.t('cancelEditBtn')}
+									</button>
+								{:else}
+									<button
+										class="!px-1.5 !text-xs"
+										onclick={async () => await startEditing(student.id)}
+									>
+										{i18n.t('editStudentBtn')}
+									</button>
+									<button
+										class="danger !px-1.5 !text-xs"
+										onclick={() => classStore.deleteStudent(student.id)}
+									>
+										{i18n.t('deleteStudentBtn')}
+									</button>
+								{/if}
 							</div>
 						</div>
 					{/each}
@@ -166,59 +156,60 @@
 	</section>
 
 	<!-- Set Number of Group Members -->
-	{#if students.length > 1}
+	{#if classStore.students.length > 1}
 		<div class="inputContainer groups">
-			<label for="numOfMembers">{$t('numOfMembersLabel')}</label>
+			<label for="numOfMembers">{i18n.t('numOfMembersLabel')}</label>
 			<input
 				class="block w-full max-w-20 rounded border-2 border-blue-200 px-4 py-3 tracking-wider shadow-sm"
 				id="numOfMembers"
-				bind:value={numOfMembers}
+				bind:value={classStore.numOfMembersPerGroup}
 				type="number"
 			/>
 		</div>
 		<div class="btnContainer">
-			<button onclick={() => createGroups()}>{$t('createGroupsBtn')}</button>
-			<button class="saveBtn" onclick={() => saveClass()}>{$t('saveClassBtn')}</button>
+			<button onclick={() => classStore.createGroups()}>{i18n.t('createGroupsBtn')}</button>
+			<button class="saveBtn" onclick={() => classStore.saveClass()}
+				>{i18n.t('saveClassBtn')}</button
+			>
 		</div>
 	{/if}
 
 	<!-- Final Groups -->
 	<section id="groups" class="mx-auto mt-12 max-w-md">
-		<h2 class="mx-auto mt-8 text-center text-2xl font-bold">{$t('groupsLabel')}</h2>
-		{#if groups.length}
+		<h2 class="mx-auto mt-8 text-center text-2xl font-bold">{i18n.t('groupsLabel')}</h2>
+		{#if classStore.groups.length}
 			<div>
-				{#each groups as group, i}
+				{#each classStore.groups as group, i}
 					<p class="group mt-6 text-lg last:mb-8">
-						<b>{$t('groupLabel')} {i + 1}</b>: {group.join(' - ')}
+						<b>{i18n.t('groupLabel')} {i + 1}</b>: {group.join(' - ')}
 					</p>
 				{/each}
 			</div>
 
 			<!-- Copy Groups to Clipboard -->
 			<button class="leading-5" onclick={() => copyGroupsToClipboard()}
-				>{$t('copyGroupsBtn')}</button
+				>{i18n.t('copyGroupsBtn')}</button
 			>
 		{:else}
-			<p class="mt-6 text-center italic">{$t('groupsPlaceholder')}</p>
+			<p class="mt-6 text-center italic">{i18n.t('groupsPlaceholder')}</p>
 		{/if}
 	</section>
 
 	<footer class="mt-16">
 		<div class="text-center">
 			<label>
-				<span class="pr-2">{$t('languageLabel')}:</span>
+				<span class="pr-2">{i18n.t('languageLabel')}:</span>
 				<select
 					class="mx-auto inline-block rounded-md border border-blue-300 bg-blue-100 p-1.5 pl-3 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
-					bind:value={$locale}
+					bind:value={i18n.locale}
 					name="language"
 					id="language"
 					onchange={() => {
-						localStorage.setItem('lang', $locale);
-						locale.set($locale);
+						i18n.setLocale(i18n.locale);
 					}}
 				>
 					{#each locales as l}
-						<option selected={$locale === l} value={l}>{l}</option>
+						<option selected={i18n.locale === l} value={l}>{l}</option>
 					{/each}
 				</select>
 			</label>

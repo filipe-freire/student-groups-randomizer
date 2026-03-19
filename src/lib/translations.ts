@@ -17,6 +17,9 @@ export const translations = {
 		groupsPlaceholder: 'No groups were created yet!',
 		groupLabel: 'Group',
 		deleteStudentBtn: 'Delete',
+		editStudentBtn: 'Edit',
+		saveEditBtn: 'Save',
+		cancelEditBtn: 'Cancel',
 		createGroupsBtn: 'Create groups',
 		saveClassBtn: 'Save Class!',
 		tableStudentName: 'Student Name',
@@ -26,7 +29,8 @@ export const translations = {
 		'toast.resetDataBtn': 'Data was cleared! ✅',
 		'toast.groupsCopiedToClipboard': 'Groups successfully copied to clipboard!',
 		'toast.loadedPreviousClass': 'Class loaded successfully',
-		'toast.savedClass': 'Class successfully saved for the next visit! 🎉'
+		'toast.savedClass': 'Class successfully saved for the next visit! 🎉',
+		'toast.studentNameUpdated': 'Student name updated successfully!'
 	},
 	'🇵🇹 pt-pt': {
 		languageLabel: 'Idioma',
@@ -44,6 +48,9 @@ export const translations = {
 		groupsPlaceholder: 'Nenhum grupo foi criado ainda!',
 		groupLabel: 'Grupo',
 		deleteStudentBtn: 'Remover',
+		editStudentBtn: 'Editar',
+		saveEditBtn: 'Guardar',
+		cancelEditBtn: 'Cancelar',
 		createGroupsBtn: 'Criar grupos',
 		saveClassBtn: 'Guardar turma',
 		tableStudentName: 'Nome do Aluno',
@@ -53,7 +60,8 @@ export const translations = {
 		'toast.resetDataBtn': 'Dados limpos com sucesso! ✅',
 		'toast.groupsCopiedToClipboard': 'Grupos copiados com sucesso para a área de transferência!',
 		'toast.loadedPreviousClass': 'Turma importada com sucesso!',
-		'toast.savedClass': 'Turma guardada com sucesso para a proxima vez!'
+		'toast.savedClass': 'Turma guardada com sucesso para a próxima sessão!',
+		'toast.studentNameUpdated': 'Nome do aluno atualizado com sucesso!'
 	}
 };
 
