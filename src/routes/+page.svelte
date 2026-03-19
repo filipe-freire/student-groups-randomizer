@@ -13,6 +13,10 @@
 	let groups: string[][] = $state([]);
 	let numOfMembers = $state(2);
 
+	onMount(() => {
+		loadPreviousClass();
+	});
+
 	// Creates groups of 2 people by default
 	function createGroups() {
 		if (!students.length || numOfMembers <= 0) return;
@@ -60,11 +64,6 @@
 			text: $t('toast.savedClass')
 		});
 	}
-
-	onMount(() => {
-		loadPreviousClass();
-	});
-
 	function loadPreviousClass() {
 		const savedClass = window.localStorage.getItem('class')?.split(' , ');
 		students = [...sortNamesAlphabetically(savedClass!)];
@@ -141,15 +140,28 @@
 		{#if students.length === 0}
 			<p class="italic">{$t('studentsListPlaceholder')}</p>
 		{:else}
-			<ol class="w-full max-w-60 pl-0">
-				{#each students as student, i}
-					<li class="student">
-						<p>{i + 1}. {student}</p>
-						<button class="danger" onclick={() => deleteStudent(i)}>{$t('deleteStudentBtn')}</button
-						>
-					</li>
-				{/each}
-			</ol>
+			<div
+				class="grid w-full max-w-3xl grid-rows-[auto_1fr] rounded-md outline outline-2 sm:w-screen"
+			>
+				<div class="grid grid-cols-[6%_67%_27%] items-center gap-x-1 border-b-2 p-2">
+					<p class="text-center font-semibold">#</p>
+					<p class="text-center font-semibold">{$t('tableStudentName')}</p>
+					<p class="text-center font-semibold">{$t('tableActions')}</p>
+				</div>
+				<div class="flex max-h-96 flex-col gap-y-1 overflow-scroll px-2">
+					{#each students as student, i}
+						<div class="grid grid-cols-[6%_67%_27%] items-center gap-x-1 py-2">
+							<p class="text-center">{students.indexOf(student) + 1}.</p>
+							<p class="line-clamp-2 break-words text-center">{student}</p>
+							<div>
+								<button class="danger !px-1.5 !text-xs" onclick={() => deleteStudent(i)}>
+									{$t('deleteStudentBtn')}
+								</button>
+							</div>
+						</div>
+					{/each}
+				</div>
+			</div>
 		{/if}
 	</section>
 
@@ -212,14 +224,14 @@
 			</label>
 		</div>
 		<p class="mt-6 text-center text-gray-700">
-			<span class="italic">Filipe Freire</span> | {new Date().getFullYear()}
+			<span class="italic">Filipe Freire</span> | 2021 - {new Date().getFullYear()}
 		</p>
 	</footer>
 </main>
 
 <style>
 	button {
-		padding: 1.5ch 1ch;
+		padding: 1ch 3ch;
 		border: 2px solid hsl(209, 36%, 47%);
 		background-color: hsl(209, 80%, 70%);
 		color: hsl(0, 0%, 100%);
@@ -234,7 +246,6 @@
 			rgba(17, 17, 26, 0.1) 0px 0px 8px;
 		cursor: pointer;
 		transition: all 100ms ease-out;
-		width: 100%;
 		max-width: 250px;
 		margin: 0 auto;
 		display: block;
@@ -275,26 +286,6 @@
 	button.saveBtn:active {
 		background-color: hsl(98, 38%, 40%);
 		border: 2px solid hsl(104.7, 64.6%, 15.5%);
-	}
-
-	ol > li {
-		width: 100%;
-	}
-
-	.student {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-	}
-	.student > button.danger {
-		max-width: 7rem;
-		padding: 0.7rem;
-		margin-left: 0;
-		margin-right: 0;
-	}
-
-	ol > .student + .student {
-		margin-top: 1em;
 	}
 
 	.inputContainer {

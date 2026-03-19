@@ -19,6 +19,8 @@ export const translations = {
 		deleteStudentBtn: 'Delete',
 		createGroupsBtn: 'Create groups',
 		saveClassBtn: 'Save Class!',
+		tableStudentName: 'Student Name',
+		tableActions: 'Actions',
 
 		// Toast
 		'toast.resetDataBtn': 'Data was cleared! ✅',
@@ -44,6 +46,8 @@ export const translations = {
 		deleteStudentBtn: 'Remover',
 		createGroupsBtn: 'Criar grupos',
 		saveClassBtn: 'Guardar turma',
+		tableStudentName: 'Nome do Aluno',
+		tableActions: 'Ações',
 
 		// Toast
 		'toast.resetDataBtn': 'Dados limpos com sucesso! ✅',
